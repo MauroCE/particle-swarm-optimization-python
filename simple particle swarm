@@ -35,13 +35,16 @@ class Particle():
 		# store these numbers, for debugging and later use.
 		self.inertia = inertia
 		self.soc     = soc
-		self.cog	 = cog
+		self.cog     = cog
 		self.domain  = domain
 		
 		# when the particle is first created, we have to "spawn" it. I.e. we need to randomly
 		# initialize its position and velocity. To do this, we need the "domain" of the optimization.
 		self.pPosition = np.array([np.random.uniform(domain[i,0], domain[i,1]) for i in range domain.shape[0])
 		self.pVelocity = np.random.uniform(-1,1, size = self.pPosition.shape)
+		
+		# we also have to initialize the particle's best position and best value to be the first found.
+		self.pBestPosition = self.pPosition.copy()
 		
 	def updatePosition(self):
 		'''
@@ -50,10 +53,16 @@ class Particle():
 		# Once we have the new velocity then we add it to the position
 		self.pPosition = self.pPosition + self.pVelocity
 		
-	def updateVelocity(self, elementWiseRandomness = True):
+	def updateVelocity(self, swarmBestPosition, elementWiseRandomness = True):
 		'''
 		This method updates the current particle velocity based on its own best position,
 		the swarm's best position, and the past velocity (inertia).
+		
+		:parameter     swarmBestPosition:       The best position of the swarm found till now.
+		:type          swarmBestPosition:       numpy array
+		
+		:parameter elementWiseRandomness:       If True, then we have a different random number for each entry.
+		:type      elementWiseRandomness:       boolean
 		'''
 		# if elementWiseRandomness is True, we apply randomness to each coordinate independently
 		if elementWiseRandomness:
@@ -62,7 +71,7 @@ class Particle():
 		# otherwise, all together
 		self.pVelocity = self.pVelocity * self.inertia 
 				 + (self.pBestPosition - self.pPosition) * self.soc * np.random.uniform(0,1)
-				 + (self.swarmBestPosition - self.pPosition) * self.cog * np.random.uniform(0,1)
+				 + (swarmBestPosition - self.pPosition) * self.cog * np.random.uniform(0,1)
 		
 		
 		
