@@ -11,6 +11,7 @@ Particle implements a particle object. A particle has some characteristics:
 - inertia coefficient                                                        ( called inertia)
 - sociality coefficient                                                      ( called soc)
 - cognitivity coefficient                                                    ( called cog)
+
 On top of those 5 characteristics, it also keeps in memory the following information:
 - best position ever found.                                                  ( called pBestPosition)
 - the value of the objective function at the best position ever found.       ( called pBestSolution)
