@@ -47,12 +47,24 @@ class Particle():
 		'''
 		This method updates the current particle position by the newly found velocity.
 		'''
+		# Once we have the new velocity then we add it to the position
+		self.pPosition = self.pPosition + self.pVelocity
 		
-	def updateVelocity(self):
+	def updateVelocity(self, elementWiseRandomness = True):
 		'''
 		This method updates the current particle velocity based on its own best position,
 		the swarm's best position, and the past velocity (inertia).
 		'''
+		# if elementWiseRandomness is True, we apply randomness to each coordinate independently
+		if elementWiseRandomness:
+			# do something
+			
+		# otherwise, all together
+		self.pVelocity = self.pVelocity * self.inertia 
+				 + (self.pBestPosition - self.pPosition) * self.soc * np.random.uniform(0,1)
+				 + (self.swarmBestPosition - self.pPosition) * self.cog * np.random.uniform(0,1)
+		
+		
 		
 
 		
@@ -101,6 +113,12 @@ class PSO():
 		# until we don't reach the maximum number of iterations, we keep going.
 		while i < max_iter:
 			# for every particle, we have do update, velocity, position and best solution.
-			for p in self.swarm:
+			for index, p in enumerate(self.swarm):
+				# If it is the first iteration and we are considering the first particle,
+				# we make the swarm best position and value those of the particle.
+				if i == 0 and index == 0:
+					self.swarmBestPosition = p.pBestPostion.copy()
+					self.swarmBestSolution = p.BestSolution.copy()
+			
 				
 			
