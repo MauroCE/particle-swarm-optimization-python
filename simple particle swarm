@@ -1,0 +1,106 @@
+# Import relevant libraries
+import numpy as np
+
+# define a class called Particle. This will be a particle object within the swarm.
+class Particle():
+	'''
+	Implements the particle object.
+	'''
+	def __init__(self, inertia, soc, cog, domain):
+		'''
+		Initiate the particle
+		
+		:parameter inertia:       Coefficient in the formula that updates particle velocity. Expresses our 
+								  confidence in the past veocity.
+		:type      inertia:       float
+		
+		:parameter     soc:       Coefficient in the formula that updates particle velocity. Expresses our
+								  confidence in the swarm's best position. Stands for "social coefficient"
+								  or "sociality"
+		:type          soc:    	  float
+		
+		:parameter     cog:       Coefficient in the formula that updates particle velocity. Expresses our
+								  confidence in our own best position. Stands for "cognitive coefficient", 
+								  or "cognitivity".
+		:type          cog:       float
+		
+		:parameter  domain:       Domain of the optimization problem. This defines the acceptable set of 
+								  inputs we are willing to explore.
+		:type       domain:       Numpy.array: It has to be shaped with each row being a dimension.
+								  I.e. np.array([[x1_min,x1_max],[x2_min, x2_max]]) and so on. Notice
+								  that the domain will tell us the dimensionality of the problem. Thus
+								  if the array is (3,2) then  we are considering a 3D space, if the array
+								  is (2,2) then we are considering a 2D space.
+		'''
+		# store these numbers, for debugging and later use.
+		self.inertia = inertia
+		self.soc     = soc
+		self.cog	 = cog
+		self.domain  = domain
+		
+		# when the particle is first created, we have to "spawn" it. I.e. we need to randomly
+		# initialize its position and velocity. To do this, we need the "domain" of the optimization.
+		self.pPosition = np.array([np.random.uniform(domain[i,0], domain[i,1]) for i in range domain.shape[0])
+		self.pVelocity = np.random.uniform(-1,1, size = self.pPosition.shape)
+		
+	def updatePosition(self):
+		'''
+		This method updates the current particle position by the newly found velocity.
+		'''
+		
+	def updateVelocity(self):
+		'''
+		This method updates the current particle velocity based on its own best position,
+		the swarm's best position, and the past velocity (inertia).
+		'''
+		
+
+		
+		
+
+
+		
+# Now define a new class called PSO. This class initiates the swarm and runs the optimization
+class PSO():
+	'''
+	Implements a standard Particle Swarm Optimizer
+	'''
+	def __init__(self, n_particles, inertia, soc, cog, domain):
+		'''
+		Instantiate the Swarm. 
+		
+		:parameter   n_particles:    Number of particles contained in the swarm.
+		:type        n_particles:    Int
+		
+		:parameter       inertia:    Coefficient of inertia for each of the particles.
+		:type            inertia:    Float
+		
+		:parameter           soc:    Coefficient of Sociality for each of the particles.
+		:type                soc:    Float
+		
+		:parameter           cog:    Coefficient of Cognitivity for each of the particles.
+		:type                cog:    Float
+		
+		:parameter        domain:    Domain of the optimization.
+		:type             domain:    np.array with shape (n_dimensions, 2)
+		'''
+		# save for debugging and later use
+		self.n_particles = n_particles
+		
+		# Initiate the swarm
+		self.swarm = [Particle(inertia, soc, cog, domain) for i in range(self.n_particles)]
+		
+	def run(self, max_iter):
+		'''
+		Runs the optimization.
+		
+		:parameter    max_iter:       Maximum number of iterations that the optimization can go on for.
+		:type         max_iter:       Int
+		'''
+		i = 0
+		# until we don't reach the maximum number of iterations, we keep going.
+		while i < max_iter:
+			# for every particle, we have do update, velocity, position and best solution.
+			for p in self.swarm:
+				
+			
